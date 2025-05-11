@@ -1,6 +1,6 @@
 # database.py
-import os
-import pickle
+import os #operating system module - used to check if the file exists
+import pickle #serialised
 
 class Database:
     FILE_PATH = "students.data"
