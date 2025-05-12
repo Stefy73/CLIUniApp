@@ -1,10 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-# from database import Database
-# from gui_enrolment import open_enrolment_window
 
-# --- Dummy implementations for demonstration only ---
-# Remove these and uncomment your imports above in your real app.
 class Student:
     def __init__(self, email, password):
         self.email = email
@@ -42,20 +38,19 @@ DARK_TEXT = "white"
 DARK_BUTTON_BG = "#0058e2"
 DARK_BUTTON_ACTIVE_BG = "#003c99"
 
-# Create main window
+
 root = tk.Tk()
 root.title("GUIUniApp - Login")
 root.geometry("500x350")
 root.configure(bg=DARK_BG)
 
-# Use a font that works well on macOS and others
 mac_font = ("SF Pro", 13)
 
-# Container frame
+
 container = tk.Frame(root, bg=DARK_BG)
 container.pack(padx=40, pady=40, fill="both", expand=True)
 
-# Email field
+
 tk.Label(container, text="Email:", font=mac_font, bg=DARK_BG, fg=DARK_TEXT).pack(anchor="w", pady=(0, 5))
 email_frame = tk.Frame(container, bg=DARK_ENTRY_BORDER, highlightbackground=DARK_ENTRY_BORDER, highlightthickness=1)
 email_frame.pack(fill="x", pady=(0, 15))
@@ -65,7 +60,7 @@ entry_email = tk.Entry(
 )
 entry_email.pack(fill="x", padx=10, pady=8)
 
-# Password field
+
 tk.Label(container, text="Password:", font=mac_font, bg=DARK_BG, fg=DARK_TEXT).pack(anchor="w", pady=(0, 5))
 password_frame = tk.Frame(container, bg=DARK_ENTRY_BORDER, highlightbackground=DARK_ENTRY_BORDER, highlightthickness=1)
 password_frame.pack(fill="x", pady=(0, 15))
@@ -75,7 +70,7 @@ entry_password = tk.Entry(
 )
 entry_password.pack(fill="x", padx=10, pady=8)
 
-# Login button
+
 login_button = tk.Button(
     container, text="Login", font=mac_font,
     bg=DARK_BUTTON_BG, fg="white",
@@ -85,10 +80,10 @@ login_button = tk.Button(
 )
 login_button.pack(pady=20)
 
-# Set focus to email entry
+
 entry_email.focus()
 
-# macOS native look - if available
+
 try:
     from tkmacosx import Button as MacButton
     login_button.destroy()
@@ -101,6 +96,6 @@ try:
     )
     login_button.pack(pady=20)
 except ImportError:
-    pass  # If tkmacosx is not available, the standard button is used
+    pass  
 
 root.mainloop()

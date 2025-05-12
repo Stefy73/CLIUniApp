@@ -8,7 +8,6 @@ def university_menu():
     db = Database()
     db.initialize_file()
     while True:
-        try:
             print("\nUniversity System : (A)dmin, (S)tudent, or X:")
             choice = input("Enter your choice: ").strip().upper()
             
@@ -20,16 +19,8 @@ def university_menu():
                 print("Thank you")
                 break
             else:
-                print("Invalid choice. Please try A, S, or X.")
-                
-        except KeyboardInterrupt:
-            print("\n\nForce quit detected. Saving data...")
-            # Add any cleanup here if needed
-            break
-        except Exception as e:
-            print(f"An error occurred: {str(e)}")
-            # Log the error if needed
+                print("Invalid")
+
 
 if __name__ == "__main__":
- # Ensure data file exists
     university_menu()

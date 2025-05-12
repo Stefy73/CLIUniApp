@@ -1,4 +1,3 @@
-# subject.py
 import random
 
 class Subject:
@@ -18,6 +17,21 @@ class Subject:
             return 'P'   # Pass
         else:
             return 'F'   # Fail
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "mark": self.mark,
+            "grade": self.grade
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        subject = cls.__new__(cls)
+        subject.id = data["id"]
+        subject.mark = data["mark"]
+        subject.grade = data["grade"]
+        return subject
 
     def __str__(self):
         return f"Subject ID: {self.id}, Mark: {self.mark}, Grade: {self.grade}"
