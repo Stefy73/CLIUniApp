@@ -1,14 +1,8 @@
 [
     {
-        "email": "stefy@university.com",
-        "password": "Testing123",
-        "name": null,
-        "subjects": [
-            {
-                "id": "035",
-                "mark": 46,
-                "grade": "F"
-            }
-        ]
+        "email": "Stefy@university.com",
+        "password": "Testing1234",
+        "name": "Stefy",
+        "subjects": []
     }
 ]

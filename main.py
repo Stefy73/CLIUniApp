@@ -8,15 +8,14 @@ def university_menu():
     db = Database()
     db.initialize_file()
     while True:
-            print("\nUniversity System : (A)dmin, (S)tudent, or X:")
-            choice = input("Enter your choice: ").strip().upper()
+            choice = input("\033[36mUniversity System : (A)dmin, (S)tudent, or X:\033[0m").strip().upper()
             
             if choice == 'A':
                 admin_menu()
             elif choice == 'S':
                 student_menu()
             elif choice == 'X':
-                print("Thank you")
+                print("\033[93mThank you\033[0m")
                 break
             else:
                 print("Invalid")
