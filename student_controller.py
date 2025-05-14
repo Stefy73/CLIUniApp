@@ -57,7 +57,8 @@ def login_student():
     db = Database()
     students = db.load_students()
 
-    # Find student
+    # Find studentx
+    
     student = next((s for s in students if s.email.lower() == email.lower() and s.password == password), None)
     if student:
         info("\033[93memail and password formats acceptable\033[0m")
