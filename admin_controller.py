@@ -6,7 +6,7 @@ def admin_menu():
 
     while True:
         print("\nAdmin System: (c)lear database, (g)roup students, (p)artition students, (r)emove student, (s)how students, (x)exit")
-        choice = input("Enter your choice: ").strip().lower()
+        choice = input().strip().lower()
 
         if choice == 'c':
             confirm = input("Are you sure you want to clear the database? (yes/no): ").strip().lower()
