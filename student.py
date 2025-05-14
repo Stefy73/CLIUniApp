@@ -1,8 +1,8 @@
 from subject import Subject
 import random
 class Student:
-    def _init_(self, email, password, subjects=None, name=None, id=None):
-        self.id = self.generate_id()
+    def __init__(self, email, password, name, subjects=None, id=None):
+        self.id = self.generate_id() if id is None else id
         self.email = email
         self.password = password
         self.name = name
