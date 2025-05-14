@@ -6,7 +6,9 @@ This project implements a CLI-based university application that allows students 
 - Student Registration & Login
 - Subject Enrolment (Max 4)
 - Admin Tools: View, Group, Partition, Remove, Clear
+
 - GUI student and subject enrolment
+
 
 ## Getting Started
 ```bash
