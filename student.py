@@ -1,13 +1,28 @@
-# student.py
-import random
+from subject import Subject
 
 class Student:
-    def __init__(self, name, email, password, subjects=None):
-        self.id = str(random.randint(1, 999999)).zfill(6)  # 6-digit ID
-        self.name = name
+    def __init__(self, email, password, subjects=None, name=None):
         self.email = email
         self.password = password
-        self.subjects = subjects if subjects is not None else []
+        self.name = name
+        self.subjects = subjects or []
+
+    def to_dict(self):
+        return {
+            "email": self.email,
+            "password": self.password,
+            "name": self.name,
+            "subjects": [subj.to_dict() for subj in self.subjects]
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            email=data["email"],
+            password=data["password"],
+            name=data.get("name"),
+            subjects=[Subject.from_dict(s) for s in data.get("subjects", [])]
+        )
 
     def calculate_average(self):
         if not self.subjects:
@@ -19,4 +34,4 @@ class Student:
 
     def __str__(self):
         subject_info = "\n".join(str(subj) for subj in self.subjects)
-        return f"ID: {self.id}, Name: {self.name}, Email: {self.email}, Subjects:\n{subject_info if subject_info else 'None'}"
+        return f"Email: {self.email}, Subjects:\n{subject_info if subject_info else 'None'}"

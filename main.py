@@ -8,28 +8,18 @@ def university_menu():
     db = Database()
     db.initialize_file()
     while True:
-        try:
-            print("\nUniversity System : (A)dmin, (S)tudent, or X:")
-            choice = input("Enter your choice: ").strip().upper()
+            choice = input("\033[36mUniversity System : (A)dmin, (S)tudent, or X:\033[0m").strip().upper()
             
             if choice == 'A':
                 admin_menu()
             elif choice == 'S':
                 student_menu()
             elif choice == 'X':
-                print("Thank you")
+                print("\033[93mThank you\033[0m")
                 break
             else:
-                print("Invalid choice. Please try A, S, or X.")
-                
-        except KeyboardInterrupt:
-            print("\n\nForce quit detected. Saving data...")
-            # Add any cleanup here if needed
-            break
-        except Exception as e:
-            print(f"An error occurred: {str(e)}")
-            # Log the error if needed
+                print("Invalid")
+
 
 if __name__ == "__main__":
- # Ensure data file exists
     university_menu()
