@@ -1,7 +1,7 @@
 from subject import Subject
 import random
 class Student:
-    def _init_(self, email, password, subjects=None, name=None, id=None):
+    def __init__(self, email, password, subjects=None, name=None, id=None):
         self.id = self.generate_id()
         self.email = email
         self.password = password
@@ -36,7 +36,7 @@ class Student:
     def is_passed(self):
         return self.calculate_average() >= 50
 
-    def _str_(self):
+    def __str__(self):
         subject_info = "\n".join(str(subj) for subj in self.subjects)
         return f"Email: {self.email}, Subjects:\n{subject_info if subject_info else 'None'}"
     def generate_id(self):

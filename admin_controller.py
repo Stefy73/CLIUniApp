@@ -1,106 +1,110 @@
-# admin_controller.py
 from database import Database
+from student import Student
+from subject import Subject
+
+# ANSI color formatting
+CYAN = "\033[36m"
+YELLOW = "\033[93m"
+RESET = "\033[0m"
 
 def admin_menu():
     db = Database()
 
     while True:
-        print("\nAdmin System: (c)lear database, (g)roup students, (p)artition students, (r)emove student, (s)how students, (x)exit")
+        print(f"{CYAN}Admin System (c/g/p/r/s/x):{RESET} ", end="")
         choice = input().strip().lower()
 
         if choice == 'c':
-            confirm = input("Are you sure you want to clear the database? (yes/no): ").strip().lower()
-            if confirm == 'yes':
-                db.clear_students()
-                print("All student data has been cleared.")
-            else:
-                print("Operation cancelled.")
-
+            clear_students(db)
         elif choice == 'g':
-            group_students()
-
+            group_students(db)
         elif choice == 'p':
-            partition_students()
-
+            partition_students(db)
         elif choice == 'r':
-            remove_student()
-
+            remove_student(db)
         elif choice == 's':
-            show_students()
-
+            show_students(db)
         elif choice == 'x':
-            print("Returning to University Menu.")
             break
-
         else:
             print("Invalid choice. Please try again.")
 
-def show_students():
-    db = Database()
+def show_students(db):
+    print(f"{YELLOW}Student List{RESET}")
     students = db.load_students()
-
     if not students:
-        print("No students found.")
+        print("< Nothing to Display >")
         return
-
-    print("\nList of Students:")
     for student in students:
-        print(f"ID: {student.id}, Name: {student.name}, Email: {student.email}, Average Mark: {student.calculate_average():.2f}")
+        print(f"{student.name} :: {student.id} --> Email: {student.email}")
 
-def group_students():
-    db = Database()
+def group_students(db):
     students = db.load_students()
-
     if not students:
-        print("No students to group.")
+        print("< Nothing to Display >")
         return
 
-    groups = {}
-    for student in students:
-        for subject in student.subjects:
-            if subject.grade not in groups:
-                groups[subject.grade] = []
-            groups[subject.grade].append((student.name, subject.id))
+    print(f"{YELLOW}Grade Grouping{RESET}")
+    grade_map = {}
+    for s in students:
+        for sub in s.subjects:
+            if sub.grade not in grade_map:
+                grade_map[sub.grade] = []
+            grade_map[sub.grade].append((s.name, s.id, sub.grade, sub.mark))
 
-    print("\nGrouped Students by Grade:")
-    for grade, info in groups.items():
-        print(f"Grade {grade}:")
-        for name, subject_id in info:
-            print(f"  Student: {name}, Subject ID: {subject_id}")
+    for grade, entries in grade_map.items():
+        print(f"{grade}  --> [", end="")
+        print(", ".join(f"{name} :: {sid} --> GRADE: {grade} - MARK: {mark:.2f}" for name, sid, grade, mark in entries), end="")
+        print("]")
 
-def partition_students():
-    db = Database()
+def partition_students(db):
     students = db.load_students()
-
+    print(f"{YELLOW}PASS/FAIL Partition{RESET}")
     if not students:
-        print("No students to partition.")
+        print("FAIL --> []")
+        print("PASS --> []")
         return
 
-    pass_list = [s for s in students if s.is_passed()]
-    fail_list = [s for s in students if not s.is_passed()]
+    pass_list = []
+    fail_list = []
 
-    print("\nPASS Students:")
-    for student in pass_list:
-        print(f"ID: {student.id}, Name: {student.name}, Avg: {student.calculate_average():.2f}")
+    for s in students:
+        avg = s.calculate_average()
+        grades = ", ".join(sub.grade for sub in s.subjects)
+        info = f"{s.name} :: {s.id} --> GRADE: {grades} - MARK: {avg:.2f}"
+        if avg >= 50:
+            pass_list.append(info)
+        else:
+            fail_list.append(info)
 
-    print("\nFAIL Students:")
-    for student in fail_list:
-        print(f"ID: {student.id}, Name: {student.name}, Avg: {student.calculate_average():.2f}")
+    print("FAIL --> [", end="")
+    print(", ".join(fail_list), end="")
+    print("]\n")
 
-def remove_student():
-    db = Database()
+    print("PASS --> [", end="")
+    print(", ".join(pass_list), end="")
+    print("]")
+
+def remove_student(db):
     students = db.load_students()
-
     if not students:
         print("No students to remove.")
         return
 
-    student_id = input("Enter the ID of the student to remove: ").strip()
-
+    student_id = input("Remove by ID: ").strip()
     updated_students = [s for s in students if s.id != student_id]
 
     if len(updated_students) == len(students):
-        print("Student ID not found.")
+        print(f"Student {student_id} does not exist")
     else:
         db.save_students(updated_students)
-        print(f"Student with ID {student_id} has been removed.")
+        print(f"Removing Student {student_id} Account")
+
+def clear_students(db):
+    print("Clearing students database")
+    confirm = input("Are you sure you want to clear the database (Y)ES/(N)O: ").strip().lower()
+    if confirm == 'y' or confirm == 'yes':
+        db.clear_students()
+        print("Students data cleared")
+    else:
+        print("Operation cancelled.")

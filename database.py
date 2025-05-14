@@ -1,5 +1,4 @@
 # database.py
-
 import os
 import json
 from student import Student
