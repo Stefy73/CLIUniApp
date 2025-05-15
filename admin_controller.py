@@ -1,3 +1,4 @@
+#Admin_controller_system
 from database import Database
 from student import Student
 from subject import Subject
@@ -5,7 +6,7 @@ from subject import Subject
 def admin_menu():
     db = Database()
     while True:
-        print("        \033[36mAdmin System (c/g/p/r/s/x):\033[0m ", end="")
+        print("        \033[96mAdmin System (c/g/p/r/s/x):\033[0m ", end="")
         choice = input().strip().lower()
 
         if choice == 's':
@@ -21,7 +22,7 @@ def admin_menu():
         elif choice == 'x':
             break
         else:
-            print("        Invalid choice. Please try again.")
+            print("        It is an invalid choice. Please try again.")
 
 def show_students(db):
     print("        \033[93mStudent List\033[0m")
@@ -43,7 +44,7 @@ def group_students(db):
     for s in students:
         for sub in s.subjects:
             grade_map.setdefault(sub.grade, []).append(
-                f"{s.name} :: {s.id} --> GRADE:  {sub.grade.ljust(2)} - MARK: {sub.mark:.2f}"
+                f"{s.name.ljust(10)} :: {s.id} --> GRADE:  {sub.grade.ljust(2)} - MARK: {sub.mark:.2f}"
             )
 
     for grade, entries in grade_map.items():
@@ -63,7 +64,7 @@ def partition_students(db):
     for s in students:
         avg = s.calculate_average()
         grades = ", ".join(sub.grade for sub in s.subjects)
-        info = f"{s.name} :: {s.id} --> GRADE:  {grades} - MARK: {avg:.2f}"
+        info = f"{s.name} :: {s.id} --> GRADE:  {grades.ljust(5)} - MARK: {avg:.2f}"
         if avg >= 50:
             pass_list.append(info)
         else:
@@ -92,12 +93,12 @@ def remove_student(db):
         print(f"        \033[91mStudent {student_id} does not exist\033[0m")
     else:
         db.save_students(updated_students)
-        print(f"        \033[33mRemoving Student {student_id} Account\033[0m")
+        print(f"        \033[93mRemoving Student {student_id} Account\033[0m")
 
 def clear_students(db):
     print("        \033[93mClearing students database\033[0m")
     confirm = input("        \033[91mAre you sure you want to clear the database (Y)ES/(N)O:\033[0m ").strip().lower()
     if confirm in ['y', 'yes']:
         db.clear_students()
-        print("        \033[33mStudents data cleared\033[0m")
+        print("        \033[93mStudents data cleared\033[0m")
     
