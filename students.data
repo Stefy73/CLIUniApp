@@ -5,5 +5,84 @@
         "password": "Helloworld123456",
         "name": "Stefy",
         "subjects": []
+    },
+    {
+        "id": "529442",
+        "email": "michelle@university.com",
+        "password": "Helloworld123456",
+        "name": "Michelle",
+        "subjects": [
+            {
+                "id": "737",
+                "mark": 54,
+                "grade": "P"
+            },
+            {
+                "id": "021",
+                "mark": 74,
+                "grade": "C"
+            },
+            {
+                "id": "753",
+                "mark": 82,
+                "grade": "D"
+            },
+            {
+                "id": "962",
+                "mark": 85,
+                "grade": "HD"
+            }
+        ]
+    },
+    {
+        "id": "915495",
+        "email": "david@university.com",
+        "password": "Helloworld123456",
+        "name": "David",
+        "subjects": [
+            {
+                "id": "682",
+                "mark": 36,
+                "grade": "F"
+            },
+            {
+                "id": "343",
+                "mark": 84,
+                "grade": "D"
+            },
+            {
+                "id": "406",
+                "mark": 96,
+                "grade": "HD"
+            }
+        ]
+    },
+    {
+        "id": "684760",
+        "email": "dmitry@university.com",
+        "password": "Helloworld123456",
+        "name": "Dmitry",
+        "subjects": [
+            {
+                "id": "491",
+                "mark": 91,
+                "grade": "HD"
+            },
+            {
+                "id": "224",
+                "mark": 60,
+                "grade": "P"
+            },
+            {
+                "id": "514",
+                "mark": 30,
+                "grade": "F"
+            },
+            {
+                "id": "071",
+                "mark": 32,
+                "grade": "F"
+            }
+        ]
     }
 ]
