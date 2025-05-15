@@ -1,12 +1,5 @@
 [
     {
-        "id": "342349",
-        "email": "stefy@university.com",
-        "password": "Helloworld123456",
-        "name": "Stefy",
-        "subjects": []
-    },
-    {
         "id": "529442",
         "email": "michelle@university.com",
         "password": "Helloworld123456",

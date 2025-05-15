@@ -96,9 +96,8 @@ def remove_student(db):
 
 def clear_students(db):
     print("        \033[93mClearing students database\033[0m")
-    confirm = input("        \033[31mAre you sure you want to clear the database (Y)ES/(N)O:\033[0m ").strip().lower()
+    confirm = input("        \033[91mAre you sure you want to clear the database (Y)ES/(N)O:\033[0m ").strip().lower()
     if confirm in ['y', 'yes']:
         db.clear_students()
         print("        \033[33mStudents data cleared\033[0m")
-    else:
-        print("        \033[36mAdmin System (c/g/p/r/s/x):\033[0m ", end="")
+    
