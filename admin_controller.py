@@ -44,7 +44,7 @@ def group_students(db):
     for s in students:
         for sub in s.subjects:
             grade_map.setdefault(sub.grade, []).append(
-                f"{s.name.ljust(10)} :: {s.id} --> GRADE:  {sub.grade.ljust(2)} - MARK: {sub.mark:.2f}"
+                f"{s.name} :: {s.id} --> GRADE:  {sub.grade.ljust(2)} - MARK: {sub.mark:.2f}"
             )
 
     for grade, entries in grade_map.items():
@@ -64,7 +64,7 @@ def partition_students(db):
     for s in students:
         avg = s.calculate_average()
         grades = ", ".join(sub.grade for sub in s.subjects)
-        info = f"{s.name} :: {s.id} --> GRADE:  {grades.ljust(5)} - MARK: {avg:.2f}"
+        info = f"{s.name} :: {s.id} --> GRADE:  {grades} - MARK: {avg:.2f}"
         if avg >= 50:
             pass_list.append(info)
         else:
