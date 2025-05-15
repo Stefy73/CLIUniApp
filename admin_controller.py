@@ -12,7 +12,7 @@ RESET = "\033[0m"
 def admin_menu():
     db = Database()
     while True:
-        print(f"{CYAN}Admin System (c/g/p/r/s/x):{RESET} ", end="")
+        print("         \033[36mAdmin System (c/g/p/r/s/x):\033[0m ", end="")
         choice = input().strip().lower()
 
         if choice == 's':
@@ -31,7 +31,7 @@ def admin_menu():
             print("Invalid choice. Please try again.")
 
 def show_students(db):
-    print(f"{YELLOW}Student List{RESET}")
+    print("         \033[93m Student List \033[0m")
     students = db.load_students()
     if not students:
         print("< Nothing to Display >")
@@ -40,7 +40,7 @@ def show_students(db):
         print(f"{student.name} :: {student.id} --> Email: {student.email}")
 
 def group_students(db):
-    print(f"{YELLOW}Grade Grouping{RESET}")
+    print("         \033[93m Grade Grouping \033[0m")
     students = db.load_students()
     if not students:
         print("< Nothing to Display >")
@@ -59,7 +59,7 @@ def group_students(db):
         print("]")
 
 def partition_students(db):
-    print(f"{YELLOW}PASS/FAIL Partition{RESET}")
+    print("         \033[93m PASS/FAIL Partition \033[0m")
     students = db.load_students()
     if not students:
         print("FAIL --> []")
@@ -92,22 +92,22 @@ def remove_student(db):
         print("No students to remove.")
         return
 
-    print(f"{CYAN}Remove by ID:{RESET} ", end="")
+    print("         \033[36m Remove by ID: \033[0m", end="")
     student_id = input().strip()
 
     updated_students = [s for s in students if s.id != student_id]
 
     if len(updated_students) == len(students):
-        print(f"{RED}Student {student_id} does not exist{RESET}")
+        print("         \033[91m Student {student_id} does not exist \033[0m")
     else:
         db.save_students(updated_students)
-        print(f"{GREEN}Removing Student {student_id} Account{RESET}")
+        print("         \033[92m Removing Student {student_id} Account \033[0m")
 
 def clear_students(db):
-    print(f"{YELLOW}Clearing students database{RESET}")
+    print("         \033[93m Clearing students database \033[0m")
     confirm = input("Are you sure you want to clear the database (Y)ES/(N)O: ").strip().lower()
     if confirm == 'y' or confirm == 'yes':
         db.clear_students()
-        print(f"{GREEN}Students data cleared{RESET}")
+        print("         \033[92m Students data cleared \033[0m")
     else:
         print("Operation cancelled.")

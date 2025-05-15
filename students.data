@@ -1,0 +1,48 @@
+[
+    {
+        "id": "523236",
+        "email": "mrlahmj@university.com",
+        "password": "Helloworld123456",
+        "name": "Himaja",
+        "subjects": [
+            {
+                "id": "968",
+                "mark": 73,
+                "grade": "C"
+            },
+            {
+                "id": "033",
+                "mark": 57,
+                "grade": "P"
+            }
+        ]
+    },
+    {
+        "id": "031522",
+        "email": "stefy@university.com",
+        "password": "Coffeeclub123456",
+        "name": "Stefy",
+        "subjects": [
+            {
+                "id": "018",
+                "mark": 79,
+                "grade": "D"
+            },
+            {
+                "id": "773",
+                "mark": 81,
+                "grade": "D"
+            },
+            {
+                "id": "149",
+                "mark": 39,
+                "grade": "F"
+            },
+            {
+                "id": "360",
+                "mark": 77,
+                "grade": "D"
+            }
+        ]
+    }
+]
