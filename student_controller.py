@@ -32,6 +32,7 @@ def register_student():
     
     info("\033[93memail and password formats acceptable\033[0m")
 
+
     db = Database()
     students = db.load_students()
 
