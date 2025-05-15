@@ -32,6 +32,7 @@ def register_student():
     
     info("\033[93memail and password formats acceptable\033[0m")
 
+
     db = Database()
     students = db.load_students()
 
@@ -47,7 +48,7 @@ def register_student():
     student = Student(email=email, password=password, name=name)
     students.append(student)
     db.save_students(students)
-    info(f"\033[93mEnrolling Student {student.name}\033[0m")
+    
 
 def login_student():
     info("\033[92mStudent Sign in\033[0m")
