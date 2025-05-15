@@ -1,78 +1,113 @@
-# admin_controller.py
 from database import Database
 from student import Student
+from subject import Subject
+
+# ANSI Colors
+CYAN = "\033[36m"
+YELLOW = "\033[93m"
+GREEN = "\033[92m"
+RED = "\033[91m"
+RESET = "\033[0m"
 
 def admin_menu():
     db = Database()
     while True:
-        print("\n\033[94mAdmin System (c/g/p/r/s/x):\033[0m", end=" ")
+        print(f"{CYAN}Admin System (c/g/p/r/s/x):{RESET} ", end="")
         choice = input().strip().lower()
 
         if choice == 's':
-            print("\033[92mStudent List\033[0m")
-            students = db.load_students()
-            if not students:
-                print("        < Nothing to Display >")
-            else:
-                for s in students:
-                    print(f"        {s.name} :: {s.id} ==> Email: {s.email}")
-
+            show_students(db)
         elif choice == 'g':
-            print("\033[93mGrade Grouping\033[0m")
-            students = db.load_students()
-            if not students:
-                print("        < Nothing to Display >")
-            else:
-                grouped = {}
-                for s in students:
-                    for subj in s.subjects:
-                        grade = subj.grade
-                        grouped.setdefault(grade, []).append((s.name, s.id, subj.mark))
-                for grade, entries in grouped.items():
-                    print(f"        {grade} --> [", end="")
-                    print(", ".join([f"{name} :: {sid} --> GRADE: {grade} - MARK: {mark:.2f}" for name, sid, mark in entries]), end="")
-                    print("]")
-
+            group_students(db)
         elif choice == 'p':
-            print("\033[93mPASS/FAIL Partition\033[0m")
-            students = db.load_students()
-            passed = []
-            failed = []
-            for s in students:
-                if s.subjects:
-                    avg = sum(subj.mark for subj in s.subjects) / len(s.subjects)
-                    grade = s.subjects[-1].grade if s.subjects else "N/A"
-                    entry = f"{s.name} :: {s.id} --> GRADE: {grade} - MARK: {avg:.2f}"
-                    if avg >= 50:
-                        passed.append(entry)
-                    else:
-                        failed.append(entry)
-            print(f"        FAIL --> {failed}")
-            print(f"        PASS --> {passed}")
-
+            partition_students(db)
         elif choice == 'r':
-            print("\033[94mRemove by ID:\033[0m", end=" ")
-            sid = input().strip()
-            students = db.load_students()
-            matched = [s for s in students if str(s.id) == sid]
-            if matched:
-                students = [s for s in students if str(s.id) != sid]
-                db.save_students(students)
-                print(f"\033[93mRemoving Student {sid} Account\033[0m")
-            else:
-                print(f"\033[91mStudent {sid} does not exist\033[0m")
-
+            remove_student(db)
         elif choice == 'c':
-            print("\033[91mClearing students database\033[0m")
-            confirm = input("        \033[91mAre you sure you want to clear the database (Y)ES/(N)O:\033[0m ").strip().upper()
-            if confirm == 'Y':
-                db.clear_students()
-                print("        \033[93mStudents data cleared\033[0m")
-            else:
-                print("        \033[93mDatabase clear cancelled\033[0m")
-
+            clear_students(db)
         elif choice == 'x':
             break
-
         else:
-            print("        \033[91mInvalid choice. Please try again.\033[0m")
+            print("Invalid choice. Please try again.")
+
+def show_students(db):
+    print(f"{YELLOW}Student List{RESET}")
+    students = db.load_students()
+    if not students:
+        print("< Nothing to Display >")
+        return
+    for student in students:
+        print(f"{student.name} :: {student.id} --> Email: {student.email}")
+
+def group_students(db):
+    print(f"{YELLOW}Grade Grouping{RESET}")
+    students = db.load_students()
+    if not students:
+        print("< Nothing to Display >")
+        return
+
+    grade_map = {}
+    for s in students:
+        for sub in s.subjects:
+            if sub.grade not in grade_map:
+                grade_map[sub.grade] = []
+            grade_map[sub.grade].append((s.name, s.id, sub.grade, sub.mark))
+
+    for grade, entries in grade_map.items():
+        print(f"{grade}  --> [", end="")
+        print(", ".join(f"{name} :: {sid} --> GRADE: {grade} - MARK: {mark:.2f}" for name, sid, grade, mark in entries), end="")
+        print("]")
+
+def partition_students(db):
+    print(f"{YELLOW}PASS/FAIL Partition{RESET}")
+    students = db.load_students()
+    if not students:
+        print("FAIL --> []")
+        print("PASS --> []")
+        return
+
+    pass_list = []
+    fail_list = []
+
+    for s in students:
+        avg = s.calculate_average()
+        grades = ", ".join(sub.grade for sub in s.subjects)
+        info = f"{s.name} :: {s.id} --> GRADE: {grades} - MARK: {avg:.2f}"
+        if avg >= 50:
+            pass_list.append(info)
+        else:
+            fail_list.append(info)
+
+    print("FAIL --> [", end="")
+    print(", ".join(fail_list), end="")
+    print("]")
+
+    print("\nPASS --> [", end="")
+    print(", ".join(pass_list), end="")
+    print("]")
+
+def remove_student(db):
+    students = db.load_students()
+    if not students:
+        print("No students to remove.")
+        return
+
+    print(f"{CYAN}Remove by ID:{RESET} ", end="")
+    student_id = input().strip()
+
+    updated_students = [s for s in students if s.id != student_id]
+
+    if len(updated_students) == len(students):
+        print(f"{RED}Student {student_id} does not exist{RESET}")
+    else:
+        db.save_students(updated_students)
+        print(f"{GREEN}Removing Student {student_id} Account{RESET}")
+
+def clear_students(db):
+    print(f"{YELLOW}Clearing students database{RESET}")
+    confirm = input("Are you sure you want to clear the database (Y)ES/(N)O: ").strip().lower()
+    if confirm == 'y' or confirm == 'yes':
+        db.clear_students()
+        print(f"{GREEN}Students data cleared{RESET}")
+    else:
+        print("Operation cancelled.")
