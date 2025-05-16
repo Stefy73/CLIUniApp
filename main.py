@@ -9,7 +9,7 @@ def university_menu():
     db = Database()
     db.initialize_file()
     while True:
-            choice = input("\033[36mUniversity System : (A)dmin, (S)tudent, or X:\033[0m").strip().upper()
+            choice = input("\033[96mUniversity System : (A)dmin, (S)tudent, or X:\033[0m").strip().upper()
             
             if choice == 'A':
                 admin_menu()
