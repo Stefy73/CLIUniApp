@@ -67,49 +67,61 @@ def login_student():
 
 def subject_enrolment_menu(student, all_students, db):
     while True:
-        print("\nSubject Enrolment System: (c)hange password, (e)nrol, (r)emove subject, (s)how enrolment, (x)exit")
-        choice = input("Enter your choice: ").strip().lower()
+        choice = input("\033[96mStudent Course Menu (c/e/r/s/x): \033[0m").strip().lower()
+        
 
         if choice == 'c':
-            new_password = input("Enter your new password: ").strip()
-            if re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", new_password):
-                student.password = new_password
-                db.save_students(all_students)
-                print("Password changed successfully.")
-            else:
-                print("Invalid password format.")
+            print("\033[93mUpdating Password\033[0m")
+            new_password = input("New Password: ").strip()
+            confirm_password = input("Confirm Password: ").strip()
+
+            while new_password != confirm_password: # Confirms password first
+                print("\033[91mPassword does not match - try again\033[0m")
+                confirm_password = input("Confirm Password: ").strip()
+
+            if new_password == confirm_password: # Then checks for Regex format
+                if re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", new_password):
+                    student.password = new_password
+                    db.save_students(all_students)
+                    print("\033[93mPassword changed successfully.\033[0m")
+                else:
+                    print("\033[91mIncorrect password format.\033[0m")
+           
         
         elif choice == 'e':
             if len(student.subjects) >= 4:
-                print("You cannot enrol in more than 4 subjects.")
+                print("\033[91mStudents are allowed to enrol in 4 subjects only\033[0m")
             else:
                 subject = Subject()
                 student.subjects.append(subject)
                 db.save_students(all_students)
-                print(f"Subject enrolled successfully! Subject ID: {subject.id}, Mark: {subject.mark}, Grade: {subject.grade}")
+                print(f"\033[93mEnrolling in Subject-{subject.id}\033[0m")
+                print(f"\033[93mYou are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
         
         elif choice == 'r':
             if not student.subjects:
-                print("No subjects to remove.")
+                print("\033[93mNo subjects to remove.\033[0m")
             else:
-                print("Your Subjects:")
-                for subj in student.subjects:
-                    print(f"{subj.id}: {subj.grade} ({subj.mark})")
-                sub_id = input("Enter Subject ID to remove: ").strip()
-                student.subjects = [s for s in student.subjects if str(s.id) != sub_id]
+                sub_id = input("Remove subject by ID: ").strip()
+
+                for subject in student.subjects:
+                    if str(subject.id) == sub_id:
+                        student.subjects.remove(subject)
+                        print(f"\033[93mDropping subject -{sub_id}\033[0m")
+                        break
                 db.save_students(all_students)
-                print("Subject removed successfully.")
+                print(f"\033[93mYou are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
         
         elif choice == 's':
             if not student.subjects:
-                print("No enrolled subjects.")
+                print("\033[93mShowing 0 subjects\033[0m")
             else:
-                print("Your Enrolled Subjects:")
+                print(f"\033[93mShowing {len(student.subjects)} subjects\033[0m")
                 for subj in student.subjects:
-                    print(f"ID: {subj.id}, Mark: {subj.mark}, Grade: {subj.grade}")
+                    print(f"[ Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
         
         elif choice == 'x':
-            print("Logging out...")
+            print("\033[93mYou are now logged out.\033[0m")
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("\033[91mInvalid choice. Please try again.\033[0m")
