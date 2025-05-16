@@ -5,65 +5,67 @@ from student import Student
 from subject import Subject
 def student_menu():
     while True:
-        print("\nStudent System: (l/r/x): ")
-
-        choice = input("Enter your choice: ").strip().lower()
-
+        choice = input("        \033[96mStudent System: (l/r/x): \033[0m").strip().lower()
         if choice == 'l':
             login_student()
         elif choice == 'r':
             register_student()
         elif choice == 'x':
-            print("Returning to the University Menu.")
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("        Invalid choice. Please try again.")
 
 def register_student():
-    print("\nStudent Registration Sign Up")
-    name = input("Enter your full name: ").strip()
-    email = input("Enter your email: ").strip()
-    password = input("Enter your password: ").strip()
+    info("\033[92mStudent Sign Up\033[0m")
+    email = input("        Email: ").strip()
+    password = input("        Password: ").strip()
 
     # Validate email
     if not re.match(r"^[a-zA-Z0-9._%+-]+@[uU]niversity\.com$", email):
-        print("Invalid email format. Must end with @university.com")
+        info("\033[91mInvalid email or password format.\033[0m")
         return
 
     # Validate password
     if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
-        print("Invalid password format. Must start with uppercase, 5+ letters, then 3+ digits.")
+        info("\033[91mIncorrect email or password format.\033[0m")
         return
+    
+    info("\033[93memail and password formats acceptable\033[0m")
+
 
     db = Database()
     students = db.load_students()
 
-    # Check if email already exists
-    if any(s.email.lower() == email.lower() for s in students):
-        print("A student with this email already exists.")
-        return
 
-    # Create new student
-    student = Student(name=name, email=email, password=password)
+    existing_student = next((s for s in students if s.email.lower() == email.lower()), None)
+    if existing_student:
+        info(f"\033[91mStudent {existing_student.name} already exists.\033[0m")
+        return
+    name = input("        Name: ").strip()
+    if not name:
+        info("Name cannot be empty.")
+        return
+    student = Student(email=email, password=password, name=name)
     students.append(student)
     db.save_students(students)
-    print("Registration successful!")
+    
 
 def login_student():
-    print("\n[Student Login]")
-    email = input("Enter your email: ").strip()
-    password = input("Enter your password: ").strip()
+    info("\033[92mStudent Sign in\033[0m")
+    email = input("        Email: ").strip()
+    password = input("        Password: ").strip()
 
     db = Database()
     students = db.load_students()
 
-    # Find student
+    # Find studentx
+    
     student = next((s for s in students if s.email.lower() == email.lower() and s.password == password), None)
     if student:
-        print(f"Welcome {student.name}!")
+        info("\033[93memail and password formats acceptable\033[0m")
         subject_enrolment_menu(student, students, db)
     else:
-        print("Invalid credentials. Please try again.")
+        info("\033[91mIncorrect email or password format.\033[0m")
 
 def subject_enrolment_menu(student, all_students, db):
     while True:
@@ -121,7 +123,11 @@ def subject_enrolment_menu(student, all_students, db):
                     print(f"[ Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
         
         elif choice == 'x':
-            print("\033[93mYou are now logged out.\033[0m")
+
+            
             break
         else:
-            print("\033[91mInvalid choice. Please try again.\033[0m")
+            print("Invalid choice. Please try again.")
+def info(msg):
+    print("        " + msg)
+
