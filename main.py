@@ -1,8 +1,9 @@
-# main.py - Main entry point for the CLI University System 
+
+# main.py 
+
 from student_controller import student_menu
 from admin_controller import admin_menu
 from database import Database 
-import re
 
 def university_menu():
     db = Database()

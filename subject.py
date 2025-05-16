@@ -8,13 +8,7 @@ class Subject:
         self.grade = self.calculate_grade()
 
     def calculate_grade(self):
-        if self.mark >= 85:
-            return 'HD'  # High Distinction
-        elif self.mark >= 75:
-            return 'D'   # Distinction
-        elif self.mark >= 65:
-            return 'C'   # Credit
-        elif self.mark >= 50:
+        if self.mark >= 50:
             return 'P'   # Pass
         else:
             return 'F'   # Fail
