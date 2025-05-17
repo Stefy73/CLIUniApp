@@ -22,7 +22,7 @@ def register_student():
 
     # Validate email
     if not re.match(r"^[a-zA-Z0-9._%+-]+@[uU]niversity\.com$", email):
-        info("\033[91mInvalid email or password format.\033[0m")
+        info("\033[91mIncorrect email or password format.\033[0m")
         return
 
     # Validate password
@@ -55,6 +55,16 @@ def login_student():
     email = input("        Email: ").strip()
     password = input("        Password: ").strip()
 
+    # Validate email
+    if not re.match(r"^[a-zA-Z0-9._%+-]+@[uU]niversity\.com$", email):
+        info("\033[91mIncorrect email or password format.\033[0m")
+        return
+
+    # Validate password
+    if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
+        info("\033[91mIncorrect email or password format.\033[0m")
+        return
+    info("\033[93memail and password formats acceptable\033[0m")
     db = Database()
     students = db.load_students()
 
@@ -62,10 +72,9 @@ def login_student():
     
     student = next((s for s in students if s.email.lower() == email.lower() and s.password == password), None)
     if student:
-        info("\033[93memail and password formats acceptable\033[0m")
         subject_enrolment_menu(student, students, db)
     else:
-        info("\033[91mIncorrect email or password format.\033[0m")
+        info("\033[91mStudent does not exist\033[0m")
 
 def subject_enrolment_menu(student, all_students, db):
     while True:
