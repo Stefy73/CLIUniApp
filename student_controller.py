@@ -5,76 +5,86 @@ from student import Student
 from subject import Subject
 def student_menu():
     while True:
-        choice = input("        \033[96mStudent System: (l/r/x): \033[0m").strip().lower()
-        if choice == 'l':
-            login_student()
-        elif choice == 'r':
-            register_student()
-        elif choice == 'x':
-            break
-        else:
-            print("        Invalid choice. Please try again.")
+        try:
+            choice = input("        \033[96mStudent System: (l/r/x): \033[0m").strip().lower()
+            if choice == 'l':
+                login_student()
+            elif choice == 'r':
+                register_student()
+            elif choice == 'x':
+                break
+            else:
+                print("        Invalid choice. Please try again.")
+        except Exception as e:
+            info(f"\033[91mAn error occurred: {e}\033[0m")
 
 def register_student():
-    info("\033[92mStudent Sign Up\033[0m")
-    email = input("        Email: ").strip()
-    password = input("        Password: ").strip()
+    try:
+        info("\033[92mStudent Sign Up\033[0m")
+        email = input("        Email: ").strip()
+        password = input("        Password: ").strip()
 
-    # Validate email
-    if not re.match(r"^[a-zA-Z0-9._%+-]+@[uU]niversity\.com$", email):
-        info("\033[91mIncorrect email or password format.\033[0m")
-        return
+        # Validate email
+        if not re.match(r"^[a-zA-Z0-9.]+@[u]niversity\.com$", email):
+            info("\033[91mIncorrect email or password format.\033[0m")
+            return
 
-    # Validate password
-    if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
-        info("\033[91mIncorrect email or password format.\033[0m")
-        return
-    
-    info("\033[93memail and password formats acceptable\033[0m")
-
-
-    db = Database()
-    students = db.load_students()
+        # Validate password
+        if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
+            info("\033[91mIncorrect email or password format.\033[0m")
+            return
+        
+        info("\033[93memail and password formats acceptable\033[0m")
 
 
-    existing_student = next((s for s in students if s.email.lower() == email.lower()), None)
-    if existing_student:
-        info(f"\033[91mStudent {existing_student.name} already exists.\033[0m")
-        return
-    name = input("        Name: ").strip()
-    if not name:
-        info("Name cannot be empty.")
-        return
-    student = Student(email=email, password=password, name=name)
-    students.append(student)
-    db.save_students(students)
+        db = Database()
+        students = db.load_students()
+
+
+        existing_student = next((s for s in students if s.email.lower() == email.lower()), None)
+        if existing_student:
+            info(f"\033[91mStudent {existing_student.name} already exists.\033[0m")
+            return
+        name = input("        Name: ").strip()
+        if not name:
+            info("Name cannot be empty.")
+            return
+        student = Student(email=email, password=password, name=name)
+        students.append(student)
+        db.save_students(students)
+    except Exception as e:
+        info(f"\033[91mAn error occurred: {e}\033[0m")
     
 
 def login_student():
-    info("\033[92mStudent Sign in\033[0m")
-    email = input("        Email: ").strip()
-    password = input("        Password: ").strip()
+    try:
+        info("\033[92mStudent Sign in\033[0m")
+        email = input("        Email: ").strip()
+        password = input("        Password: ").strip()
 
-    # Validate email
-    if not re.match(r"^[a-zA-Z0-9._%+-]+@[uU]niversity\.com$", email):
-        info("\033[91mIncorrect email or password format.\033[0m")
-        return
+        # Validate email
+        if not re.match(r"^[a-zA-Z0-9.]+@[u]niversity\.com$", email):
+            info("\033[91mIncorrect email or password format.\033[0m")
+            return
 
-    # Validate password
-    if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
-        info("\033[91mIncorrect email or password format.\033[0m")
-        return
-    info("\033[93memail and password formats acceptable\033[0m")
-    db = Database()
-    students = db.load_students()
+        # Validate password
+        if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
+            info("\033[91mIncorrect email or password format.\033[0m")
+            return
+        info("\033[93memail and password formats acceptable\033[0m")
+        db = Database()
+        students = db.load_students()
 
-    # Find studentx
-    
-    student = next((s for s in students if s.email.lower() == email.lower() and s.password == password), None)
-    if student:
-        subject_enrolment_menu(student, students, db)
-    else:
-        info("\033[91mStudent does not exist\033[0m")
+        # Find studentx
+        
+        student = next((s for s in students if s.email.lower() == email.lower() and s.password == password), None)
+        if student:
+            subject_enrolment_menu(student, students, db)
+        else:
+            info("\033[91mStudent does not exist\033[0m")
+    except Exception as e:
+        info(f"\033[91mAn error occurred: {e}\033[0m")
+
 
 def subject_enrolment_menu(student, all_students, db):
     while True:
@@ -139,4 +149,3 @@ def subject_enrolment_menu(student, all_students, db):
             print("Invalid choice. Please try again.")
 def info(msg):
     print("        " + msg)
-
