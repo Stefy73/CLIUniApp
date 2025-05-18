@@ -80,21 +80,32 @@ def partition_students(db):
     print("]")
 
 def remove_student(db):
-    students = db.load_students()
-    if not students:
-        print("        No students to remove.")
-        return
+    try:
+        students = db.load_students()
+        if not students:
+            print("        No students to remove.")
+            return
 
-    print("        Remove by ID:", end="")
-    student_id = input().strip()
+        print("        Remove by ID:", end="")
+        student_id = input().strip()
 
-    updated_students = [s for s in students if s.id != student_id]
+        # Validate if the ID is numeric
+        if not student_id.isdigit():
+                raise ValueError("Student ID must be numeric.")
 
-    if len(updated_students) == len(students):
-        print(f"        \033[91mStudent {student_id} does not exist\033[0m")
-    else:
-        db.save_students(updated_students)
-        print(f"        \033[93mRemoving Student {student_id} Account\033[0m")
+        updated_students = [s for s in students if str(s.id) != student_id]
+
+        if len(updated_students) == len(students):
+            print(f"        \033[91mStudent {student_id} does not exist\033[0m")
+        else:
+            db.save_students(updated_students)
+            print(f"        \033[93mRemoving Student {student_id} Account\033[0m")
+
+    except ValueError as ve:
+        print(f"        \033[91mInvalid input: {ve}\033[0m")
+    except Exception as e:
+        print(f"        \033[91mError removing student: {e}\033[0m")
+
 
 def clear_students(db):
     print("        \033[93mClearing students database\033[0m")
@@ -109,3 +120,15 @@ def clear_students(db):
 #     indent = "    " * indent_level
 #     wrapped = textwrap.fill(text, width=80, initial_indent=indent, subsequent_indent=indent)
 #     print(wrapped)
+
+
+
+
+
+#updated_students = [s for s in students if s.id != student_id]
+
+#    if len(updated_students) == len(students):
+ #       print(f"        \033[91mStudent {student_id} does not exist\033[0m")
+  #  else:
+   #     db.save_students(updated_students)
+    #    print(f"        \033[93mRemoving Student {student_id} Account\033[0m")
