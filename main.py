@@ -19,7 +19,7 @@ def university_menu():
                 print("\033[93mThank you\033[0m")
                 break
             else:
-                print("Invalid")
+                print("Invalid choice. Please try again.")
 
 
 if __name__ == "__main__":

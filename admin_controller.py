@@ -2,6 +2,7 @@
 from database import Database
 from student import Student
 from subject import Subject
+import textwrap
 
 def admin_menu():
     db = Database()
@@ -102,3 +103,9 @@ def clear_students(db):
         db.clear_students()
         print("        \033[93mStudents data cleared\033[0m")
     
+
+
+# def wrapped_info(text, indent_level=):
+#     indent = "    " * indent_level
+#     wrapped = textwrap.fill(text, width=80, initial_indent=indent, subsequent_indent=indent)
+#     print(wrapped)
