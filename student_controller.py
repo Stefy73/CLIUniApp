@@ -88,64 +88,64 @@ def login_student():
 
 def subject_enrolment_menu(student, all_students, db):
     while True:
-        choice = input("\033[96mStudent Course Menu (c/e/r/s/x): \033[0m").strip().lower()
+        choice = input("\033[96m        Student Course Menu (c/e/r/s/x): \033[0m").strip().lower()
         
 
         if choice == 'c':
-            print("\033[93mUpdating Password\033[0m")
-            new_password = input("New Password: ").strip()
-            confirm_password = input("Confirm Password: ").strip()
+            print("\033[93m        Updating Password\033[0m")
+            new_password = input("        New Password: ").strip()
+            confirm_password = input("        Confirm Password: ").strip()
 
             while new_password != confirm_password: # Confirms password first
-                print("\033[91mPassword does not match - try again\033[0m")
-                confirm_password = input("Confirm Password: ").strip()
+                print("\033[91m        Password does not match - try again\033[0m")
+                confirm_password = input("        Confirm Password: ").strip()
 
             if new_password == confirm_password: # Then checks for Regex format
                 if re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", new_password):
                     student.password = new_password
                     db.save_students(all_students)
-                    print("\033[93mPassword changed successfully.\033[0m")
+                    print("\033[93m        Password changed successfully.\033[0m")
                 else:
-                    print("\033[91mIncorrect password format.\033[0m")
+                    print("\033[91m        Incorrect password format.\033[0m")
            
         
         elif choice == 'e':
             if len(student.subjects) >= 4:
-                print("\033[91mStudents are allowed to enrol in 4 subjects only\033[0m")
+                print("\033[91m        Students are allowed to enrol in 4 subjects only\033[0m")
             else:
                 subject = Subject()
                 student.subjects.append(subject)
                 db.save_students(all_students)
-                print(f"\033[93mEnrolling in Subject-{subject.id}\033[0m")
-                print(f"\033[93mYou are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
+                print(f"\033[93m        Enrolling in Subject-{subject.id}\033[0m")
+                print(f"\033[93m        You are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
         
         elif choice == 'r':
             if not student.subjects:
-                print("\033[93mNo subjects to remove.\033[0m")
+                print("\033[93m        No subjects to remove.\033[0m")
             else:
-                sub_id = input("Remove subject by ID: ").strip()
+                sub_id = input("        Remove subject by ID: ").strip()
 
                 for subject in student.subjects:
                     if str(subject.id) == sub_id:
                         student.subjects.remove(subject)
-                        print(f"\033[93mDropping subject -{sub_id}\033[0m")
+                        print(f"\033[93m        Dropping subject -{sub_id}\033[0m")
                         break
                 db.save_students(all_students)
-                print(f"\033[93mYou are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
+                print(f"\033[93m        You are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
         
         elif choice == 's':
             if not student.subjects:
-                print("\033[93mShowing 0 subjects\033[0m")
+                print("\033[93m        Showing 0 subjects\033[0m")
             else:
-                print(f"\033[93mShowing {len(student.subjects)} subjects\033[0m")
+                print(f"\033[93m        Showing {len(student.subjects)} subjects\033[0m")
                 for subj in student.subjects:
-                    print(f"[ Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
+                    print(f"[         Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
         
         elif choice == 'x':
 
             
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("        Invalid choice. Please try again.")
 def info(msg):
     print("        " + msg)
