@@ -13,3 +13,38 @@ This project implements a CLI-based university application that allows students 
 ## Getting Started
 ```bash
 python main.py
+
+## Admin_controller.py
+-Implemented a command-line admin menu interface allowing access to five core admin operations as mentioned:
+    -Show students (s)
+    -Group students by grade (g)
+    -Partition students into Pass/Fail categories (p)
+    -Remove a student by ID (r)
+    -Clear the entire student database (c)
+-Show Students (s):
+    -Loads student data from students.data
+    -Displays each student’s name, ID, and email in the required CLI format
+    -Displays a placeholder message if no students exist
+-Group Students by Grade (g):
+    -Iterates through all enrolled students and their subjects
+    -Groups students by grade (HD, D, C, P, F)
+    -Displays grouped output in the format matching the sample I/O with indentation and color
+-Partition Students into Pass/Fail (p):
+    -Calculates each student’s average subject mark using calculate_average()
+    -Categorizes students into "PASS" (average ≥ 50) and "FAIL" lists
+    -Prints both lists with student details and grades
+-Remove Student by ID (r):
+    -Prompts admin to enter a student ID
+    -Validates that the input is numeric and checks for the student’s existence
+    -Removes the student from the list and saves the updated list back to the file
+    -Handles invalid input and non-existent IDs with appropriate error messages using try-except
+-Clear All Students(c):
+    -Prompts admin for confirmation before clearing all student records
+    -Upon confirmation (Y), clears all data from students.data
+-Demonstrated Exception Handling:
+    -Uses specific try-except blocks to catch and report:
+    -Non-numeric input (ValueError) when removing a student
+    -Thereby ensuring smooth user experience and robustness by preventing program crashes
+
+
+
