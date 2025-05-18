@@ -59,5 +59,12 @@
         "password": "Testing1234",
         "name": "Stefy",
         "subjects": []
+    },
+    {
+        "id": "402782",
+        "email": "stefy.thomas@university.com",
+        "password": "Hello1234",
+        "name": "stefy thomas",
+        "subjects": []
     }
 ]
