@@ -154,6 +154,9 @@ command=self.logout).pack(pady=10)
      
     def logout(self): 
         self.controller.logout() 
+        login_frame = self.master.master.frames["login"]
+        if hasattr(login_frame, "clear"):
+         login_frame.clear()
         self.switch_frame("login") 
  
 class EnrolmentView(tk.Frame): 
@@ -205,7 +208,8 @@ fg="white", selectcolor="darkslategrey").pack(anchor="w")
             messagebox.showerror("Error", "You are already enrolled in the maximum of 4 subjects!") 
             return 
         if len(self.controller.get_student_subjects()) + len(selected) > 4: 
-            messagebox.showerror("Error", f"You can only enroll in {4 - len(self.controller.get_student_subjects())} more subjects!") 
+            messagebox.showerror("Error", f"You can only enroll in {4 - 
+len(self.controller.get_student_subjects())} more subjects!") 
             return 
  
         success = [] 
