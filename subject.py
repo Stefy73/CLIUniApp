@@ -9,7 +9,7 @@ class Subject:
 
     def calculate_grade(self):
         if 85 <= self.mark <= 100:
-            return 'H'  # High Distinction
+            return 'HD'  # High Distinction
         elif 75 <= self.mark < 85:
             return 'D'  # Distinction
         elif 65 <= self.mark < 75:
