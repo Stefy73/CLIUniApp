@@ -88,64 +88,75 @@ def login_student():
 
 def subject_enrolment_menu(student, all_students, db):
     while True:
-        choice = input("\033[96m        Student Course Menu (c/e/r/s/x): \033[0m").strip().lower()
-        
+        try:
+            choice = input("\033[96m        Student Course Menu (c/e/r/s/x): \033[0m").strip().lower()
+            
 
-        if choice == 'c':
-            print("\033[93m        Updating Password\033[0m")
-            new_password = input("        New Password: ").strip()
-            confirm_password = input("        Confirm Password: ").strip()
-
-            while new_password != confirm_password: # Confirms password first
-                print("\033[91m        Password does not match - try again\033[0m")
+            if choice == 'c':
+                print("\033[93m        Updating Password\033[0m")
+                new_password = input("        New Password: ").strip()
                 confirm_password = input("        Confirm Password: ").strip()
 
-            if new_password == confirm_password: # Then checks for Regex format
-                if re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", new_password):
-                    student.password = new_password
-                    db.save_students(all_students)
-                    print("\033[93m        Password changed successfully.\033[0m")
-                else:
-                    print("\033[91m        Incorrect password format.\033[0m")
-           
-        
-        elif choice == 'e':
-            if len(student.subjects) >= 4:
-                print("\033[91m        Students are allowed to enrol in 4 subjects only\033[0m")
-            else:
-                subject = Subject()
-                student.subjects.append(subject)
-                db.save_students(all_students)
-                print(f"\033[93m        Enrolling in Subject-{subject.id}\033[0m")
-                print(f"\033[93m        You are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
-        
-        elif choice == 'r':
-            if not student.subjects:
-                print("\033[93m        No subjects to remove.\033[0m")
-            else:
-                sub_id = input("        Remove subject by ID: ").strip()
+                while new_password != confirm_password: # Confirms password first
+                    print("\033[91m        Password does not match - try again\033[0m")
+                    confirm_password = input("        Confirm Password: ").strip()
 
-                for subject in student.subjects:
-                    if str(subject.id) == sub_id:
-                        student.subjects.remove(subject)
-                        print(f"\033[93m        Dropping subject -{sub_id}\033[0m")
-                        break
-                db.save_students(all_students)
-                print(f"\033[93m        You are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
-        
-        elif choice == 's':
-            if not student.subjects:
-                print("\033[93m        Showing 0 subjects\033[0m")
-            else:
-                print(f"\033[93m        Showing {len(student.subjects)} subjects\033[0m")
-                for subj in student.subjects:
-                    print(f"        [ Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
-        
-        elif choice == 'x':
-
+                if new_password == confirm_password: # Then checks for Regex format
+                    if re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", new_password):
+                        student.password = new_password
+                        db.save_students(all_students)
+                        print("\033[93m        Password changed successfully.\033[0m")
+                    else:
+                        print("\033[91m        Incorrect password format.\033[0m")
             
+            
+            elif choice == 'e':
+                if len(student.subjects) >= 4:
+                    print("\033[91m        Students are allowed to enrol in 4 subjects only\033[0m")
+                else:
+                    try:
+                        subject = Subject()
+                        student.subjects.append(subject)
+                        db.save_students(all_students)
+                        print(f"\033[93m        Enrolling in Subject-{subject.id}\033[0m")
+                        print(f"\033[93m        You are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
+                    except Exception as e:
+                        print(f"\033[91m        Failed to enrol in subject: {e}\033[0m")
+    
+            elif choice == 'r':
+                if not student.subjects:
+                    print("\033[93m        No subjects to remove.\033[0m")
+                else:
+                    sub_id = input("        Remove subject by ID: ").strip()
+
+                    for subject in student.subjects:
+                        if str(subject.id) == sub_id:
+                            student.subjects.remove(subject)
+                            print(f"\033[93m        Dropping subject -{sub_id}\033[0m")
+                            break
+                    db.save_students(all_students)
+                    print(f"\033[93m        You are now enrolled in {len(student.subjects)} out of 4 subjects\033[0m")
+            
+            elif choice == 's':
+                if not student.subjects:
+                    print("\033[93m        Showing 0 subjects\033[0m")
+                else:
+                    print(f"\033[93m        Showing {len(student.subjects)} subjects\033[0m")
+                    for subj in student.subjects:
+                        print(f"        [ Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
+            
+            elif choice == 'x':
+
+                
+                break
+            else:
+                print("        Invalid choice. Please try again.")
+        except KeyboardInterrupt:
+            print("\n\033[91m        Interrupted. Returning to menu.\033[0m")
             break
-        else:
-            print("        Invalid choice. Please try again.")
+
+        except Exception as e:
+            print(f"\033[91m        An unexpected error occurred: {e}\033[0m")
+
 def info(msg):
     print("        " + msg)
