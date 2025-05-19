@@ -7,7 +7,7 @@ class Database:
     FILE_PATH = "students.data"
 
     def initialize_file(self):
-        """Ensure the file exists with an empty list."""
+        # Ensure the file exists with an empty list
         if not os.path.exists(self.FILE_PATH):
             with open(self.FILE_PATH, 'w') as f:
                 json.dump([], f)

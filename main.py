@@ -26,11 +26,14 @@ def university_menu():
                     break
                 else:
                     print("\033[91mInvalid choice. Please try again.\033[0m")
+            # Ctrl+C to test (interrupt a program)
             except KeyboardInterrupt:
                 print("\n\033[93mExiting the system\033[0m")
                 break   
+            # Ctrl+D to test (when input stream is empty)
             except EOFError:
                 print ("\n\033[93mInput closed\033[0m")
+                #catches exception e and stores it in e 
             except Exception as e:
                 print(f"\033[91mAn error occurred: {e}\033[0m")
                 break
