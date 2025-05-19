@@ -45,7 +45,7 @@ def group_students(db):
     for s in students:
         for sub in s.subjects:
             grade_map.setdefault(sub.grade, []).append(
-                f"{s.name} :: {s.id} --> GRADE:  {sub.grade.ljust(2)} - MARK: {sub.mark:.2f}"
+                f"{s.name} :: {s.id} --> GRADE:  {sub.grade} - MARK: {sub.mark:.2f}"
             )
 
     for grade, entries in grade_map.items():
