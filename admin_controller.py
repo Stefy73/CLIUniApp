@@ -2,7 +2,6 @@
 from database import Database
 from student import Student
 from subject import Subject
-import textwrap
 
 def admin_menu():
     db = Database()
@@ -45,7 +44,7 @@ def group_students(db):
     for s in students:
         for sub in s.subjects:
             grade_map.setdefault(sub.grade, []).append(
-                f"{s.name} :: {s.id} --> GRADE:  {sub.grade.ljust(2)} - MARK: {sub.mark:.2f}"
+                f"{s.name} :: {s.id} --> GRADE:  {sub.grade} - MARK: {sub.mark:.2f}"
             )
 
     for grade, entries in grade_map.items():
@@ -89,7 +88,7 @@ def remove_student(db):
         print("        Remove by ID:", end="")
         student_id = input().strip()
 
-        # Validate if the ID is numeric
+        # Assessing if the ID is numeric or not
         if not student_id.isdigit():
                 raise ValueError("Student ID must be numeric.")
 
@@ -116,19 +115,3 @@ def clear_students(db):
     
 
 
-# def wrapped_info(text, indent_level=):
-#     indent = "    " * indent_level
-#     wrapped = textwrap.fill(text, width=80, initial_indent=indent, subsequent_indent=indent)
-#     print(wrapped)
-
-
-
-
-
-#updated_students = [s for s in students if s.id != student_id]
-
-#    if len(updated_students) == len(students):
- #       print(f"        \033[91mStudent {student_id} does not exist\033[0m")
-  #  else:
-   #     db.save_students(updated_students)
-    #    print(f"        \033[93mRemoving Student {student_id} Account\033[0m")

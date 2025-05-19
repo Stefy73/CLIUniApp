@@ -16,13 +16,13 @@ python main.py
 
 ## Admin_controller.py
 -Implemented a command-line admin menu interface allowing access to five core admin operations as mentioned:
-    -Show students (s)
-    -Group students by grade (g)
-    -Partition students into Pass/Fail categories (p)
-    -Remove a student by ID (r)
-    -Clear the entire student database (c)
+    -Shows students (s)
+    -Groups the students by their grade (g)
+    -Partitions the students into Pass/Fail categories (p)
+    -Removes a student by their ID (r)
+    -Clears the entire student database (c)
 -Show Students (s):
-    -Loads student data from students.data
+    -Loads the student data from students.data
     -Displays each student’s name, ID, and email in the required CLI format
     -Displays a placeholder message if no students exist
 -Group Students by Grade (g):
@@ -30,7 +30,7 @@ python main.py
     -Groups students by grade (HD, D, C, P, F)
     -Displays grouped output in the format matching the sample I/O with indentation and color
 -Partition Students into Pass/Fail (p):
-    -Calculates each student’s average subject mark using calculate_average()
+    -Calculates each student’s average subject mark by using calculate_average()
     -Categorizes students into "PASS" (average ≥ 50) and "FAIL" lists
     -Prints both lists with student details and grades
 -Remove Student by ID (r):
