@@ -66,7 +66,7 @@ def login_student():
         if not re.match(r"^[a-zA-Z0-9.]+@[u]niversity\.com$", email):
             info("\033[91mIncorrect email or password format.\033[0m")
             return
-
+# return exits the current function
         # Validate password
         if not re.match(r"^[A-Z][a-zA-Z]{4,}\d{3,}$", password):
             info("\033[91mIncorrect email or password format.\033[0m")
@@ -75,7 +75,7 @@ def login_student():
         db = Database()
         students = db.load_students()
 
-        # Find studentx
+        # Find student
         
         student = next((s for s in students if s.email.lower() == email.lower() and s.password == password), None)
         if student:
@@ -139,7 +139,7 @@ def subject_enrolment_menu(student, all_students, db):
             else:
                 print(f"\033[93m        Showing {len(student.subjects)} subjects\033[0m")
                 for subj in student.subjects:
-                    print(f"[         Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
+                    print(f"        [ Subject:: {subj.id} -- mark = {subj.mark} -- grade = {subj.grade} ]")
         
         elif choice == 'x':
 
